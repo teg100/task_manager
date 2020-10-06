@@ -19,6 +19,7 @@ schema_view = get_schema_view(
    public=True,
    permission_classes=(permissions.IsAuthenticatedOrReadOnly,),
 )
+
 urlpatterns = [
     path('login/', UserLogin.as_view(), name='user-login'),
     path('register/', UserCreate.as_view(), name='account-create'),

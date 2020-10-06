@@ -5,20 +5,18 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
-from rest_framework.status import (
-    HTTP_400_BAD_REQUEST,
-    HTTP_404_NOT_FOUND,
-    HTTP_200_OK
-)
+from rest_framework.status import (HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND, HTTP_200_OK)
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import get_object_or_404
-from rest_framework.generics import ListAPIView
 
 
 class UserLogin(APIView):
     """
         Login user
+
+        :parameters: username, password
+        :return: token
     """
     def post(self, request):
         username = request.data.get("username")
@@ -68,6 +66,9 @@ class HistoryTaskView(APIView):
 class UserCreate(APIView):
     """
         Creates the user.
+
+        :parameters: username, password
+        :return: token
     """
     def post(self, request):
         serializer = UserSerializer(data=request.data)
@@ -75,6 +76,6 @@ class UserCreate(APIView):
             user = serializer.save()
             if user:
                 token = Token.objects.create(user=user)
-                json = {'token' : token.key}
+                json = {'token': token.key}
                 return Response(json, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

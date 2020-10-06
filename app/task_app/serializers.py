@@ -11,7 +11,6 @@ class TaskSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['url', 'title', 'description', 'date_create', 'status', 'expected_dead_line']
 
 
-
 class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -24,6 +23,7 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
+
 
 class HistoryTaskSerializer(serializers.ModelSerializer):
 
