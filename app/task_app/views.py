@@ -12,10 +12,14 @@ from rest_framework.status import (
 )
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
+from django.shortcuts import get_object_or_404
+from rest_framework.generics import ListAPIView
 
 
 class UserLogin(APIView):
-
+    """
+        Login user
+    """
     def post(self, request):
         username = request.data.get("username")
         password = request.data.get("password")
@@ -35,7 +39,6 @@ class TaskUserView(viewsets.ModelViewSet):
     """
         CRUD operations for task
     """
-
     serializer_class = TaskSerializer
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
@@ -49,11 +52,24 @@ class TaskUserView(viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
 
 
+class HistoryTaskView(APIView):
+    """
+        List history for task
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, id):
+        task = get_object_or_404(Task, id=id, user=request.user)
+        if task:
+            serializer = HistoryTaskSerializer(task.history.all(), many=True)
+            return Response(serializer.data, status=HTTP_200_OK)
+
+
 class UserCreate(APIView):
     """
-    Creates the user.
+        Creates the user.
     """
-    def post(self, request, format='json'):
+    def post(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
