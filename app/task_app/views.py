@@ -5,10 +5,13 @@ from rest_framework.generics import *
 from django.contrib.auth.models import User
 
 
-class TaskUserListView(ListAPIView):
-
+class TaskUserView(viewsets.ModelViewSet):
+    """
+        CRUD operations for task
+    """
+    queryset = Task.objects.all()
     serializer_class = TaskSerializer
 
-    def get_queryset(self):
-        queryset = Task.objects.filter(user=User)
-        return queryset
+    def create(self, validated_data):
+        # validated_data['user'] = self.request.user
+        return super().create(validated_data)
