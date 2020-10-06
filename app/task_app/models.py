@@ -5,10 +5,10 @@ from django.contrib.auth.models import User
 class Task(models.Model):
 
     STATUS_CHOICES = [
-        ('NW', 'New'),
-        ('PL', 'Planned'),
-        ('IW', 'In work'),
-        ('FS', 'Finished'),
+        ('New', 'New'),
+        ('Planned', 'Planned'),
+        ('In_work', 'In work'),
+        ('Finished', 'Finished'),
     ]
 
     title = models.CharField(max_length=100)
