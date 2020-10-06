@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from simple_history.models import HistoricalRecords
 
 
 class Task(models.Model):
@@ -17,6 +18,7 @@ class Task(models.Model):
     status = models.CharField(max_length=40, choices=STATUS_CHOICES)
     expected_dead_line = models.DateField(blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, default='')
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.title
