@@ -14,7 +14,7 @@ class Task(models.Model):
 
     title = models.CharField(max_length=100)
     description = models.TextField()
-    date_create = models.DateTimeField(auto_now=True)
+    date_create = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=40, choices=STATUS_CHOICES)
     expected_dead_line = models.DateField(blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, default='')
