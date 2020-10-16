@@ -57,10 +57,12 @@ class HistoryTaskView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, id):
-        task = get_object_or_404(Task, id=id, user=request.user)
+        task = Task.objects.get(id=id, user=request.user)
         if task:
             serializer = HistoryTaskSerializer(task.history.all(), many=True)
             return Response(serializer.data, status=HTTP_200_OK)
+        else:
+            return Response({'error': 'Not found task'}, status=HTTP_404_NOT_FOUND)
 
 
 class UserCreate(APIView):
