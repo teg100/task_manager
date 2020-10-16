@@ -17,7 +17,7 @@ class Task(models.Model):
     date_create = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=40, choices=STATUS_CHOICES)
     expected_dead_line = models.DateField(blank=True, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default='')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     history = HistoricalRecords()
 
     def __str__(self):
